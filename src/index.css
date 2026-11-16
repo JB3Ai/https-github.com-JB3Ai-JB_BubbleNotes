@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@layer base {
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #030508;
+    color: #e2e8f0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-display {
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.font-mono-tabular {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Solid / translucent obsidian surfaces (zero backdrop-filter over active WebGL canvas) */
+.obsidian-surface {
+  background: rgba(9, 13, 22, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.obsidian-modal {
+  background: rgba(10, 15, 26, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Synced organic lava-lamp membrane overlay for tactile hover & collision squish */
+@keyframes lavaOrganicIdle {
+  0%, 100% {
+    border-radius: 48% 52% 51% 49% / 49% 47% 53% 51%;
+  }
+  33% {
+    border-radius: 52% 48% 47% 53% / 51% 53% 47% 49%;
+  }
+  66% {
+    border-radius: 49% 51% 53% 47% / 47% 50% 50% 53%;
+  }
+}
+
+@keyframes lavaSquishHover {
+  0% {
+    transform: scale(1, 1);
+  }
+  26% {
+    transform: scale(1.09, 0.91);
+  }
+  55% {
+    transform: scale(0.95, 1.06);
+  }
+  80% {
+    transform: scale(1.03, 0.98);
+  }
+  100% {
+    transform: scale(1.02, 1.01);
+  }
+}
+
+@keyframes lavaSquishCollide {
+  0% {
+    transform: scale(1, 1);
+  }
+  22% {
+    transform: scale(0.86, 1.15);
+  }
+  50% {
+    transform: scale(1.10, 0.91);
+  }
+  76% {
+    transform: scale(0.96, 1.04);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.lava-orb-membrane {
+  border-radius: 48% 52% 51% 49% / 49% 47% 53% 51%;
+  animation: lavaOrganicIdle 12s ease-in-out infinite;
+  transition: box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.lava-orb-squish {
+  border-radius: inherit;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.lava-orb-wrapper:hover .lava-orb-squish {
+  animation: lavaSquishHover 0.85s cubic-bezier(0.22, 1.35, 0.36, 1) forwards;
+  border-color: var(--orb-accent);
+  box-shadow: 0 0 28px var(--orb-glow), inset 0 0 18px var(--orb-core);
+}
+
+.lava-orb-wrapper.is-colliding .lava-orb-squish {
+  animation: lavaSquishCollide 0.72s cubic-bezier(0.22, 1.35, 0.36, 1);
+  box-shadow: 0 0 24px var(--orb-glow), inset 0 0 16px var(--orb-core);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lava-orb-membrane,
+  .lava-orb-wrapper:hover .lava-orb-squish,
+  .lava-orb-wrapper.is-colliding .lava-orb-squish {
+    animation: none;
+  }
+}
+
+/* Subtle custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(3, 5, 8, 0.6);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Hide scrollbar on horizontal dock tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
